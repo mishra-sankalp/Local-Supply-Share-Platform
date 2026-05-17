@@ -1,0 +1,6 @@
+@LocalSupply.API_HostAddress = http://localhost:5036
+
+GET {{LocalSupply.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
