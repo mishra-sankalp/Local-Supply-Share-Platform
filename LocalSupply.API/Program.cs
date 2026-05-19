@@ -1,41 +1,69 @@
+using System.Text;
+using Hangfire;
+using Hangfire.PostgreSql;
+using LocalSupply.API.Data;
+using LocalSupply.API.Middleware;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using StackExchange.Redis;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+// Database with PostGIS
+// builder.Services.AddDbContext<AppDBContext>(options =>
+//     options.UseNpgsql(
+//         builder.Configuration.GetConnectionString("DefaultConnection")
+//     ));
+// Redis
+var redisString = builder.Configuration.GetConnectionString("Redis");
+Console.WriteLine($"Redis connection: {redisString}");
+builder.Services.AddSingleton<IConnectionMultiplexer>(
+    ConnectionMultiplexer.Connect(
+        builder.Configuration.GetConnectionString("Redis")!));
+
+// SignalR
+builder.Services.AddSignalR();
+
+// JWT Auth
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options => {
+        options.TokenValidationParameters = new TokenValidationParameters {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))
+        };
+        // Allow SignalR to read token from query string
+        options.Events = new JwtBearerEvents {
+            OnMessageReceived = ctx => {
+                var token = ctx.Request.Query["access_token"];
+                if (!string.IsNullOrEmpty(token))
+                    ctx.Token = token;
+                return Task.CompletedTask;
+            }
+        };
+    });
+
+// Hangfire
+// builder.Services.AddHangfire(config =>
+//     config.UsePostgreSqlStorage(
+//         builder.Configuration.GetConnectionString("DefaultConnection")));
+// builder.Services.AddHangfireServer();
+
+builder.Services.AddControllers();
+builder.Services.AddAutoMapper(typeof(Program));
 
 var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-}
-
-app.UseHttpsRedirection();
-
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
+app.UseMiddleware<ExceptionMiddleware>();
+app.UseAuthentication();
+app.UseAuthorization();
+app.MapControllers();
+//app.MapHub<ListingHub>("/hubs/listings");
+//app.UseHangfireDashboard("/hangfire");
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
