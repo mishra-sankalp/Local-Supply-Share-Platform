@@ -2,6 +2,7 @@ using System.Text;
 using Hangfire;
 using Hangfire.PostgreSql;
 using LocalSupply.API.Data;
+using LocalSupply.API.Interceptor;
 using LocalSupply.API.Middleware;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -9,15 +10,17 @@ using Microsoft.IdentityModel.Tokens;
 using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Services.AddSingleton<AuditableEntityInterceptor>();
 // Database with PostGIS
-// builder.Services.AddDbContext<AppDBContext>(options =>
-//     options.UseNpgsql(
-//         builder.Configuration.GetConnectionString("DefaultConnection")
-//     ));
+builder.Services.AddDbContext<AppDBContext>((serviceProvider, options) =>
+{
+    var auditableEntityInterceptor = serviceProvider.GetRequiredService<AuditableEntityInterceptor>();
+
+    // Use UseNpgsql instead of UseSqlServer
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
+        .AddInterceptors(auditableEntityInterceptor); 
+});
 // Redis
-var redisString = builder.Configuration.GetConnectionString("Redis");
-Console.WriteLine($"Redis connection: {redisString}");
 builder.Services.AddSingleton<IConnectionMultiplexer>(
     ConnectionMultiplexer.Connect(
         builder.Configuration.GetConnectionString("Redis")!));
