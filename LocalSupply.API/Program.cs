@@ -4,6 +4,7 @@ using Hangfire.PostgreSql;
 using LocalSupply.API.Data;
 using LocalSupply.API.Interceptor;
 using LocalSupply.API.Middleware;
+using LocalSupply.API.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -60,7 +61,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddControllers();
 builder.Services.AddAutoMapper(typeof(Program));
-
+builder.Services.AddScoped<IAuthService, AuthService>();
 var app = builder.Build();
 app.UseMiddleware<ExceptionMiddleware>();
 app.UseAuthentication();

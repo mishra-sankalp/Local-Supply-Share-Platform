@@ -7,12 +7,12 @@ namespace LocalSupply.API.Interceptor;
 public class AuditableEntityInterceptor : SaveChangesInterceptor
 {
     public override ValueTask<InterceptionResult<int>> SavingChangesAsync(
-        DbContextEventData eventData, 
-        InterceptionResult<int> result, 
+        DbContextEventData eventData,
+        InterceptionResult<int> result,
         CancellationToken cancellationToken = default)
     {
         var dbContext = eventData.Context;
-        if (dbContext == null) 
+        if (dbContext == null)
         {
             return base.SavingChangesAsync(eventData, result, cancellationToken);
         }
@@ -35,4 +35,5 @@ public class AuditableEntityInterceptor : SaveChangesInterceptor
         }
 
         return base.SavingChangesAsync(eventData, result, cancellationToken);
+    }
 }

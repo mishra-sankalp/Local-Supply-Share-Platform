@@ -1,4 +1,6 @@
-﻿{
+﻿//The launchSettings.json file controls how our .NET 10 application behaves when we run it locally
+//It tells our IDE or the .NET CLI exactly how to host the application when we hit "Run" or execute dotnet run
+{
   "$schema": "https://json.schemastore.org/launchsettings.json",
   "profiles": {
     "http": {
