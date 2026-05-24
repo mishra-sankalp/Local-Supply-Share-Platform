@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("LocalSupply.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c497e79470e6f2bd8fa6676cd3944789db0c1222")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bb235c794bf4e24446b311946257728c13eab8aa")]
 [assembly: System.Reflection.AssemblyProductAttribute("LocalSupply.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("LocalSupply.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
