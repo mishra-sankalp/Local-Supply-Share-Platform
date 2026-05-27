@@ -17,8 +17,6 @@ C:\Personal Projects\Local Supply Share Platform\Local-Supply-Share-Platform\Loc
 C:\Personal Projects\Local Supply Share Platform\Local-Supply-Share-Platform\LocalSupply.API\bin\Debug\net10.0\LocalSupply.API.runtimeconfig.json
 C:\Personal Projects\Local Supply Share Platform\Local-Supply-Share-Platform\LocalSupply.API\bin\Debug\net10.0\LocalSupply.API.dll
 C:\Personal Projects\Local Supply Share Platform\Local-Supply-Share-Platform\LocalSupply.API\bin\Debug\net10.0\LocalSupply.API.pdb
-C:\Personal Projects\Local Supply Share Platform\Local-Supply-Share-Platform\LocalSupply.API\bin\Debug\net10.0\AutoMapper.dll
-C:\Personal Projects\Local Supply Share Platform\Local-Supply-Share-Platform\LocalSupply.API\bin\Debug\net10.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 C:\Personal Projects\Local Supply Share Platform\Local-Supply-Share-Platform\LocalSupply.API\bin\Debug\net10.0\BCrypt-Net-Next.dll
 C:\Personal Projects\Local Supply Share Platform\Local-Supply-Share-Platform\LocalSupply.API\bin\Debug\net10.0\CloudinaryDotNet.dll
 C:\Personal Projects\Local Supply Share Platform\Local-Supply-Share-Platform\LocalSupply.API\bin\Debug\net10.0\Dapper.dll
@@ -170,3 +168,6 @@ C:\Personal Projects\Local Supply Share Platform\Local-Supply-Share-Platform\Loc
 C:\Personal Projects\Local Supply Share Platform\Local-Supply-Share-Platform\LocalSupply.API\obj\Debug\net10.0\LocalSupply.API.pdb
 C:\Personal Projects\Local Supply Share Platform\Local-Supply-Share-Platform\LocalSupply.API\obj\Debug\net10.0\LocalSupply.API.genruntimeconfig.cache
 C:\Personal Projects\Local Supply Share Platform\Local-Supply-Share-Platform\LocalSupply.API\obj\Debug\net10.0\ref\LocalSupply.API.dll
+C:\Personal Projects\Local Supply Share Platform\Local-Supply-Share-Platform\LocalSupply.API\bin\Debug\net10.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Personal Projects\Local Supply Share Platform\Local-Supply-Share-Platform\LocalSupply.API\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Personal Projects\Local Supply Share Platform\Local-Supply-Share-Platform\LocalSupply.API\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerUI.dll

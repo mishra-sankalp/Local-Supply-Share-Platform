@@ -11,7 +11,12 @@ using Microsoft.IdentityModel.Tokens;
 using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddControllers();
+//swagger
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<AuditableEntityInterceptor>();
+
 // Database with PostGIS
 builder.Services.AddDbContext<AppDBContext>((serviceProvider, options) =>
 {
@@ -59,10 +64,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 //         builder.Configuration.GetConnectionString("DefaultConnection")));
 // builder.Services.AddHangfireServer();
 
-builder.Services.AddControllers();
-builder.Services.AddAutoMapper(typeof(Program));
+//builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddScoped<IAuthService, AuthService>();
 var app = builder.Build();
+app.UseSwagger();
+app.UseSwaggerUI();
 app.UseMiddleware<ExceptionMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();
